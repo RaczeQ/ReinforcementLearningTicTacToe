@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Game.Objects;
+using System;
+using static Game.Players.PlayerManager;
 
 namespace Game
 {
@@ -10,6 +8,8 @@ namespace Game
     {
         static void Main(string[] args)
         {
+            TicTacToe.RunGame(PlayerType.Player, PlayerType.Random, Board.DEFAULT_SIZE);
+            Console.ReadLine();
         }
     }
 }
