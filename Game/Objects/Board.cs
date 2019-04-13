@@ -37,6 +37,25 @@ namespace Game.Objects
             }
         }
 
+        public Board(Board b)
+        {
+            this.Size = b.Size;
+            this.CurrentPlayer = b.CurrentPlayer;
+            Cells = new Cell[Size, Size];
+            for (int r = 0; r < Size; r++)
+            {
+                for (int c = 0; c < Size; c++)
+                {
+                    Cells[r, c] = new Cell(b.Cells[r, c].State);
+                }
+            }
+        }
+
+        public Board GetBoardCopy()
+        { 
+            return new Board(this);
+        }
+
         public Player GetCurrentPlayer()
         {
             return (Player)CurrentPlayer;

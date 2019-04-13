@@ -7,6 +7,15 @@ namespace Game.Objects
         public enum CellState { Empty = -1, X = 0, O = 1 }
         public CellState State { get; private set; } = CellState.Empty;
 
+        public Cell() :
+            this(CellState.Empty)
+        { }
+
+        public Cell(CellState state)
+        {
+            State = state;
+        }
+
         public void SetState(CellState newState)
         {
             if (newState == CellState.Empty)
