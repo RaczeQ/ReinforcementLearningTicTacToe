@@ -8,8 +8,12 @@ using System.Threading.Tasks;
 namespace Game.Learnings
 {
     public class MoveStates
-    {       
-        public int State { get; set; }
-        public double[] QValue { get; set; } = Enumerable.Repeat(0.6, Board.DEFAULT_SIZE * Board.DEFAULT_SIZE).ToArray();
+    {      
+        public Board State { get; set; }
+       // public int State { get; set; }
+         public double?[] QValue { get; set; } = new double?[Board.DEFAULT_SIZE * Board.DEFAULT_SIZE];
+
+        //  public double?[] QValue { get; set; } = 
+        //Enumerable.Repeat(null, Board.DEFAULT_SIZE * Board.DEFAULT_SIZE).ToArray();
     }
 }

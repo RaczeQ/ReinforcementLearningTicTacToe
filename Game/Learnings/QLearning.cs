@@ -21,32 +21,63 @@ namespace Game.Learnings
 
         static List<MoveStates> Qtable = new List<MoveStates>(); //Board.DEFAULT_SIZE * Board.DEFAULT_SIZE
 
-        public void LearnQFunction(Board board)
+        public void Train()
         {
-            UpdateQtable(board);
-          
+            throw new NotImplementedException();
         }
 
-        void UpdateQtable(Board board)
+
+        public Tuple<int, int> MakeMove(Board board)
         {
-            foreach(var move in board.GetAvailableMoves())
+            throw new NotImplementedException();
+        }
+
+
+        public Tuple<int, int> LearnQFunction(Board board)
+        {
+            return Learn(board);  
+        }
+
+        Tuple<int, int> Learn(Board board)
+        {
+            
+        }
+
+        void InitializeQtable(MoveStates moveStates, IList<Tuple<int, int>> availableMoves)
+        {
+            foreach(var move in availableMoves)
             {
-                var stateCopy = board;
-                stateCopy.MakeMove(move);
-                if (Qtable.Where(x => x.State == stateCopy.GetHashCode()).FirstOrDefault() == null)
-                    Qtable.Add(new MoveStates { State = stateCopy.GetHashCode() });  
-                
+                moveStates.QValue[GetIndexOfQValue(move)] = 0.6;
             }
         }
-
-        double CountReward(Board board, MoveStates moveStates, double currentQValue)
+        void UpdateQTable(MoveStates moveStates)
         {
-            var state = board.GetGameState();
-            if (state.Item1 != GameState.InProgress)
-                return Reward(board);
-            else
-                return currentQValue + LEARNING_RATE * (DISCOUNT_FACTOR * (moveStates.QValue.Max() - currentQValue)); 
+            for( int i =0; i<moveStates.QValue.Length; i++)
+            {
+                if(moveStates.QValue[i].HasValue)
+                    moveStates.QValue[i] = Reward(moveStates.State);
+            }         
         }
+
+        int GetIndexOfQValue(Tuple<int, int> move)
+        {
+            return move.Item2 + (move.Item2 * Board.DEFAULT_SIZE);
+        }
+        Tuple<int, int> GetMoveCoordinatesFromQValue(int index)
+        {
+            int y = (int) Math.Floor((double)(index / Board.DEFAULT_SIZE));
+            int x = index - (y * Board.DEFAULT_SIZE);
+            return new Tuple<int, int>(x, y);
+        }
+
+        //double CountReward(Board board, MoveStates moveStates, double currentQValue)
+        //{
+        //    var state = board.GetGameState();
+        //    if (state.Item1 != GameState.InProgress)
+        //        return Reward(board);
+        //    else
+        //        return currentQValue + LEARNING_RATE * (DISCOUNT_FACTOR * (moveStates.QValue.Max() - currentQValue)); 
+        //}
 
         public double Reward(Board board)
         {
@@ -64,5 +95,7 @@ namespace Game.Learnings
                 return state.Item2 == board.GetCurrentPlayer() ? WIN_REWARD_VALUE : LOSS_REWARD_VALUE;
             }
         }
+
+      
     }
 }

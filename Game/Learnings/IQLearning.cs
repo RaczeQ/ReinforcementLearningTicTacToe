@@ -9,8 +9,12 @@ namespace Game.Learnings
 {
     interface IQLearning
     {
-        void LearnQFunction(Board board);
 
-        double Reward(Board board);
+        Tuple<int, int> MakeMove(Board board);
+        //  void LearnQFunction(Board board);
+
+        //  double Reward(Board board);
+
+        void Train();
     }
 }
