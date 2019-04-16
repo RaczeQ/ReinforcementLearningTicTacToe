@@ -6,7 +6,7 @@ namespace Game
 {
     public static class TicTacToe
     {
-        public static void RunGame(PlayerManager.PlayerType player1, PlayerManager.PlayerType player2, int boardSize)
+        public static void RunGame(PlayerManager.PlayerType player1, PlayerManager.PlayerType player2, int boardSize, int battleNum)
         {
             var b = new Board(boardSize);
             var players = new IPlayer[2] { PlayerManager.GetPlayer(player1), PlayerManager.GetPlayer(player2) };
