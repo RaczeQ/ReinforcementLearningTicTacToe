@@ -15,6 +15,10 @@ namespace Game.Learnings
         public static readonly double LEARNING_RATE = 0.9;
         public static readonly double DISCOUNT_FACTOR = 0.95;
 
+        private static readonly double WIN_REWARD_VALUE = 1.0;
+        private static readonly double TIE_REWARD_VALUE = 0.5;
+        private static readonly double LOSS_REWARD_VALUE = 0.0;
+
         static List<MoveStates> Qtable = new List<MoveStates>(); //Board.DEFAULT_SIZE * Board.DEFAULT_SIZE
 
         public void LearnQFunction(Board board)
@@ -52,11 +56,11 @@ namespace Game.Learnings
             }
             else if (state.Item1 == GameState.Tie)
             {
-                return 0.5;
+                return TIE_REWARD_VALUE;
             }
             else
             {
-                return state.Item2 == board.GetCurrentPlayer() ? 1 : 0;
+                return state.Item2 == board.GetCurrentPlayer() ? WIN_REWARD_VALUE : LOSS_REWARD_VALUE;
             }
         }
     }
