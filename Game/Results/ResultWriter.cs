@@ -46,5 +46,18 @@ namespace Game.Results
         {
             directory = dir;
         }
+
+        public static void SaveResult(List<int> result, string fileName)
+        {
+            var path = AppDomain.CurrentDomain.BaseDirectory + "/Results";
+            var file = String.Format(path + "/{0}.txt", fileName);
+            using (var f = File.CreateText(file))
+            {
+                foreach (var res in result)
+                {
+                    f.WriteLine(string.Join("\n", res));
+                }
+            }
+        }
     }
 }

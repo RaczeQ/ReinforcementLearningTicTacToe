@@ -53,9 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\Exceptions.cs" />
+    <Compile Include="Learnings\QFunction.cs" />
     <Compile Include="Learnings\IQLearning.cs" />
     <Compile Include="Learnings\QLearning.cs" />
-    <Compile Include="Learnings\MoveStates.cs" />
+    <Compile Include="Learnings\QValue.cs" />
     <Compile Include="NLogConfigurator.cs" />
     <Compile Include="Objects\Board.cs" />
     <Compile Include="Objects\Cell.cs" />

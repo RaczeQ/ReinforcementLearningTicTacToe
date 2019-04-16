@@ -1,4 +1,5 @@
-﻿using Game.Objects;
+﻿using Game.Learnings;
+using Game.Objects;
 using NLog;
 using System;
 using static Game.Players.PlayerManager;
@@ -16,7 +17,8 @@ namespace Game
             // Warn - just simulation result
             NLogConfigurator.Configure(LogLevel.Warn);
 
-            TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+            QFunction.GenerateStates();
+           // TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
             Console.ReadLine();
         }
     }

@@ -194,7 +194,7 @@ namespace Game.Objects
                     hash = hash * 31 + Cells[i, j].State.GetHashCode();
                 }
             }
-            
+
             hash = hash * 31 + GetCurrentPlayer().GetHashCode();
 
             return hash;

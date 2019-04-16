@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.Exceptions;
+using Game.Learnings;
 using Game.Objects;
 using static Game.Objects.Board;
 
@@ -16,11 +18,13 @@ namespace Game.Learnings
         private static readonly double TIE_REWARD_VALUE = 0.5;
         private static readonly double LOSS_REWARD_VALUE = 0.0;
 
-        static List<MoveStates> Qtable = new List<MoveStates>(); //Board.DEFAULT_SIZE * Board.DEFAULT_SIZE
+        
 
         public void Train()
         {
-            throw new NotImplementedException();
+            QFunction.GenerateStates();
+            var temp = QFunction.QTable;
+            var t = 5;
         }
 
 
@@ -37,29 +41,26 @@ namespace Game.Learnings
 
         Tuple<int, int> Learn(Board board)
         {
-            
+            return null;
         }
 
-        void InitializeQtable(MoveStates moveStates, IList<Tuple<int, int>> availableMoves)
-        {
-            foreach(var move in availableMoves)
-            {
-                moveStates.QValue[GetIndexOfQValue(move)] = 0.6;
-            }
-        }
-        void UpdateQTable(MoveStates moveStates)
-        {
-            for( int i =0; i<moveStates.QValue.Length; i++)
-            {
-                if(moveStates.QValue[i].HasValue)
-                    moveStates.QValue[i] = Reward(moveStates.State);
-            }         
-        }
+        //void InitializeQtable(QValue moveStates, IList<Tuple<int, int>> availableMoves)
+        //{
+        //    foreach(var move in availableMoves)
+        //    {
+        //        moveStates.Actions[GetIndexOfQValue(move)] = 0.6;
+        //    }
+        //}
+        //void UpdateQTable(QValue moveStates)
+        //{
+        //    for( int i =0; i<moveStates.Actions.Length; i++)
+        //    {
+        //        if(moveStates.QValue[i].HasValue)
+        //            moveStates.Actions[i] = Reward(moveStates.State);
+        //    }         
+        //}
 
-        int GetIndexOfQValue(Tuple<int, int> move)
-        {
-            return move.Item2 + (move.Item2 * Board.DEFAULT_SIZE);
-        }
+       
         Tuple<int, int> GetMoveCoordinatesFromQValue(int index)
         {
             int y = (int) Math.Floor((double)(index / Board.DEFAULT_SIZE));
@@ -67,15 +68,7 @@ namespace Game.Learnings
             return new Tuple<int, int>(x, y);
         }
 
-        //double CountReward(Board board, MoveStates moveStates, double currentQValue)
-        //{
-        //    var state = board.GetGameState();
-        //    if (state.Item1 != GameState.InProgress)
-        //        return Reward(board);
-        //    else
-        //        return currentQValue + LEARNING_RATE * (DISCOUNT_FACTOR * (moveStates.QValue.Max() - currentQValue)); 
-        //}
-
+       
         public double Reward(Board board)
         {
             var state = board.GetGameState();
