@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Game.Objects;
+using NLog;
 
 namespace Game.Players
 {
     public class ConsolePlayer : IPlayer
     {
+        private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         public Tuple<int, int> GetMove(Board board)
         {
             var moves = board.GetAvailableMoves();
@@ -19,7 +21,7 @@ namespace Game.Players
         private Tuple<int, int> ReadInput(IList<Tuple<int, int>> moves, string board, string player)
         {
             var alphabets = Enumerable.Range('a', 26).Select((num) => (char)num).ToList();
-            Console.WriteLine($"Current player: {player}");
+            _logger.Info($"Current player: {player}");
             int _a = 0;
             StringBuilder sb = new StringBuilder(board);
             
@@ -30,7 +32,7 @@ namespace Game.Players
                 _a++;
             }
             alphabets = alphabets.Take(_a).ToList();
-            Console.WriteLine(board);
+            _logger.Info(board);
             Console.Write("Give move letter: ");
             var result = Console.ReadLine();
             while (!alphabets.Contains(result[0]))
