@@ -4,6 +4,7 @@ using System.Linq;
 using Game.Exceptions;
 using Game.Learnings;
 using Game.Objects;
+using MathNet.Numerics.LinearAlgebra;
 using static Game.Objects.Board;
 
 namespace Game.Learnings
@@ -18,58 +19,82 @@ namespace Game.Learnings
         private static readonly double TIE_REWARD_VALUE = 0.5;
         private static readonly double LOSS_REWARD_VALUE = 0.0;
 
-        
+        private static readonly int EPISODES_NUM =5;
+
+        Random r = new Random();
+        public static Matrix<double> QFunctionMatrix { get; set; }
 
         public void Train()
         {
-            QFunction.GenerateStates();
-            var temp = QFunction.QTable;
-            var t = 5;
+            QFunction.GenerateTabularQFunction();
+            
+            for (int i=0; i<EPISODES_NUM; i++)
+            {
+                var board = new Board();
+                LearnFromMoves(board);
+            }
+
+            var t = QFunction.TabluarQFunction;
+            var tt = 5;
+                                           
         }
 
+        //CHANGE TO MATRIX AND REFACTOR
 
-        public Tuple<int, int> MakeMove(Board board)
+        public double? LearnFromMoves(Board board)
         {
-            throw new NotImplementedException();
+            if(board.GetGameState().Item1 == Board.GameState.Finished)
+            {
+                return GetReward(board);
+            }
+            else
+            {
+                var currentBoard = board.GetBoardCopy();
+                var currentStateQValue = QFunction.TabluarQFunction.Where(s => s.State == currentBoard.GetHashCode()).FirstOrDefault();
+                var index = currentStateQValue.Actions.ToList().IndexOf(currentStateQValue.Actions.Max());
+                var t = GetMoveCoordinatesFromQValue(index);
+
+                var temp = currentBoard.GetAvailableMoves();
+                board.MakeMove(GetMoveCoordinatesFromQValue(index));
+                var nextMoveReward  = LearnFromMoves(board);
+
+                QFunction.TabluarQFunction.Where(s => s.State == currentBoard.GetHashCode()).FirstOrDefault().Actions[index]
+                    = currentStateQValue.Actions[index] + LEARNING_RATE
+                    * (DISCOUNT_FACTOR * (nextMoveReward) - currentStateQValue.Actions[index]);
+
+                return QFunction.TabluarQFunction.Where(s => s.State == currentBoard.GetHashCode()).FirstOrDefault().Actions[index];
+            }
+               
         }
 
 
-        public Tuple<int, int> LearnQFunction(Board board)
-        {
-            return Learn(board);  
+        //TO REFACTOR
+        private void IniitializeQFunctionMatrix()
+        { 
+            QFunctionMatrix = Matrix<double>.Build.Dense(QFunction.TabluarQFunction.Count, (1 + Board.DEFAULT_SIZE * Board.DEFAULT_SIZE), -1);
+            for (int i = 0; i < QFunction.TabluarQFunction.Count; i++)
+            {
+                QFunctionMatrix[i, 0] = QFunction.TabluarQFunction.ElementAt(i).State;
+                for(int j=0; j<(1 + Board.DEFAULT_SIZE * Board.DEFAULT_SIZE); j++)
+                {
+                    QFunctionMatrix[i, j] = QFunction.TabluarQFunction.ElementAt(i).Actions[j - 1] ?? -1;
+                }
+            }
+
         }
 
-        Tuple<int, int> Learn(Board board)
-        {
-            return null;
-        }
 
-        //void InitializeQtable(QValue moveStates, IList<Tuple<int, int>> availableMoves)
-        //{
-        //    foreach(var move in availableMoves)
-        //    {
-        //        moveStates.Actions[GetIndexOfQValue(move)] = 0.6;
-        //    }
-        //}
-        //void UpdateQTable(QValue moveStates)
-        //{
-        //    for( int i =0; i<moveStates.Actions.Length; i++)
-        //    {
-        //        if(moveStates.QValue[i].HasValue)
-        //            moveStates.Actions[i] = Reward(moveStates.State);
-        //    }         
-        //}
 
-       
         Tuple<int, int> GetMoveCoordinatesFromQValue(int index)
         {
-            int y = (int) Math.Floor((double)(index / Board.DEFAULT_SIZE));
-            int x = index - (y * Board.DEFAULT_SIZE);
+            int x = (int)Math.Floor((double)(index / Board.DEFAULT_SIZE));
+            int y = index - (x * Board.DEFAULT_SIZE);
             return new Tuple<int, int>(x, y);
         }
 
-       
-        public double Reward(Board board)
+     
+
+        public double GetReward(Board board)
         {
             var state = board.GetGameState();
             if (state.Item1 == GameState.InProgress)

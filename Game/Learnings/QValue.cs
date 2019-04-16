@@ -11,5 +11,6 @@ namespace Game.Learnings
     {
         public int State { get; set; }
         public double?[] Actions { get; set; } = new double?[Board.DEFAULT_SIZE * Board.DEFAULT_SIZE];
+      //  public IList<Tuple<int, int>> AllActions { get; set; }
     }
 }

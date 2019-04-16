@@ -8,13 +8,7 @@ using System.Threading.Tasks;
 namespace Game.Learnings
 {
     interface IQLearning
-    {
-
-        Tuple<int, int> MakeMove(Board board);
-        //  void LearnQFunction(Board board);
-
-        //  double Reward(Board board);
-
+    { 
         void Train();
     }
 }

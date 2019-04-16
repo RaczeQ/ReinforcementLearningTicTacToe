@@ -17,8 +17,8 @@ namespace Game
             // Warn - just simulation result
             NLogConfigurator.Configure(LogLevel.Warn);
 
-            QFunction.GenerateStates();
-           // TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+            //QFunction.GenerateTabularQFunction();
+            TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
             Console.ReadLine();
         }
     }

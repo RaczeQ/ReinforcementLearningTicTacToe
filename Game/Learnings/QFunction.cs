@@ -11,11 +11,17 @@ namespace Game.Learnings
     public class QFunction
     {
         static readonly double DEAFULT_VALUE = 0.6;
-        public static List<QValue> QTable { get; set; } = new List<QValue>();
+        public static List<QValue> TabluarQFunction { get; set; } = new List<QValue>();
 
-        public static void GenerateStates()
+        public static void GenerateTabularQFunction()
         { 
-            ExploreStates(new Board(Board.DEFAULT_SIZE));
+            var b = new Board();
+            TabluarQFunction.Add(new QValue
+            {
+                State = b.GetHashCode(),
+                Actions = InitializeActions(b.GetAvailableMoves())
+            });
+            ExploreStates(b);    
         }
         public static void ExploreStates(Board board)
         {   
@@ -26,13 +32,14 @@ namespace Game.Learnings
                     var copy = board.GetBoardCopy();
                     copy.MakeMove(move);
                     var hash = copy.GetHashCode();
-                    if(!QTable.Any(x=> x.State==hash))
+                    if(!TabluarQFunction.Any(x=> x.State==hash))
                     {
-                        QTable.Add( new QValue
+                        TabluarQFunction.Add( new QValue
                         {
                             State = hash,
                             Actions = InitializeActions(copy.GetAvailableMoves())
-                        } );
+
+                        });
                     }
                     ExploreStates(copy);
                 }
@@ -41,7 +48,7 @@ namespace Game.Learnings
 
         static int GetIndexOfQValue(Tuple<int, int> move)
         {
-            return move.Item1 + (move.Item2 * Board.DEFAULT_SIZE);
+            return move.Item2 + (move.Item1 * Board.DEFAULT_SIZE);
         }
 
         static double?[] InitializeActions(IList<Tuple<int, int>> moves)
