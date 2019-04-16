@@ -183,5 +183,21 @@ namespace Game.Objects
             }
             return result;
         }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    hash = hash * 31 + Cells[i, j].State.GetHashCode();
+                }
+            }
+            
+            hash = hash * 31 + GetCurrentPlayer().GetHashCode();
+
+            return hash;
+        }
     }
 }
