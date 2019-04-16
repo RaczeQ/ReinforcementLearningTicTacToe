@@ -1,11 +1,7 @@
 ﻿using NLog;
+using NLog.Conditions;
 using NLog.Layouts;
 using NLog.Targets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game
 {
@@ -14,8 +10,15 @@ namespace Game
         public static void Configure(LogLevel minLevel)
         {
             var config = new NLog.Config.LoggingConfiguration();
-            var coloredConsole = new NLog.Targets.ColoredConsoleTarget("console");
-            coloredConsole.Layout = Layout.FromString("${message}");
+            var coloredConsole = new NLog.Targets.ColoredConsoleTarget("console")
+            {
+                Layout = Layout.FromString("${message}")
+            };
+
+            var warningHighlightRule = new ConsoleRowHighlightingRule();
+            warningHighlightRule.Condition = ConditionParser.ParseExpression("level == LogLevel.Warn");
+            warningHighlightRule.ForegroundColor = ConsoleOutputColor.White;
+            coloredConsole.RowHighlightingRules.Add(warningHighlightRule);
 
             var xHighlightRule = new ConsoleWordHighlightingRule();
             xHighlightRule.Text = "X";
@@ -32,10 +35,15 @@ namespace Game
             boardHighlightRule.ForegroundColor = ConsoleOutputColor.DarkGray;
             coloredConsole.WordHighlightingRules.Add(boardHighlightRule);
 
+            var digitHighlightRule = new ConsoleWordHighlightingRule();
+            digitHighlightRule.Regex = "\\d";
+            digitHighlightRule.ForegroundColor = ConsoleOutputColor.Magenta;
+            coloredConsole.WordHighlightingRules.Add(digitHighlightRule);
+
 
             config.AddRule(minLevel, LogLevel.Fatal, coloredConsole);
 
-            NLog.LogManager.Configuration = config;
+            LogManager.Configuration = config;
         }
     }
 }
