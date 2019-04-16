@@ -9,7 +9,7 @@ namespace Game
         public static readonly int BATTLE_NUM = 100;
         static void Main(string[] args)
         {
-            TicTacToe.RunGame(PlayerType.Player, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+            TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
             Console.ReadLine();
         }
     }

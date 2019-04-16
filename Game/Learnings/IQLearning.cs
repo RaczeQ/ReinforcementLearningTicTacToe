@@ -10,7 +10,7 @@ namespace Game.Learnings
     interface IQLearning
     {
         void LearnQFunction(Board board);
-      
-        int Reward(Board board);
+
+        double Reward(Board board);
     }
 }

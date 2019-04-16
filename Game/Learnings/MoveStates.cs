@@ -9,7 +9,7 @@ namespace Game.Learnings
 {
     public class MoveStates
     {       
-        public Board GameState { get; set; }
+        public Board State { get; set; }
         public double[] QValue { get; set; } = Enumerable.Repeat(0.6, Board.DEFAULT_SIZE * Board.DEFAULT_SIZE).ToArray();
     }
 }

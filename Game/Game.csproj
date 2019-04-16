@@ -57,6 +57,7 @@
     <Compile Include="Players\RandomPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Results\ResultWriter.cs" />
     <Compile Include="TicTacToe.cs" />
   </ItemGroup>
   <ItemGroup>

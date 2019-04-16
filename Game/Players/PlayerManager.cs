@@ -4,7 +4,7 @@ namespace Game.Players
 {
     public static class PlayerManager
     {
-        public enum PlayerType { Player, Random }
+        public enum PlayerType { Player, Random, QLearning }
 
         public static IPlayer GetPlayer(PlayerType type)
         {
@@ -14,6 +14,8 @@ namespace Game.Players
                     return new ConsolePlayer();
                 case PlayerType.Random:
                     return new RandomPlayer();
+                case PlayerType.QLearning:
+                    return new QLearningPlayer();
                 default:
                     throw new NonExistentPlayerException();
             }

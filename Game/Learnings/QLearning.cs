@@ -14,12 +14,23 @@ namespace Game.Learnings
         public static readonly double LEARNING_RATE = 0.9;
         public static readonly double DISCOUNT_FACTOR = 0.95;
 
-        static List<MoveStates> Qtable = new List<MoveStates>(Board.DEFAULT_SIZE * Board.DEFAULT_SIZE);
+        static List<MoveStates> Qtable = new List<MoveStates>(); //Board.DEFAULT_SIZE * Board.DEFAULT_SIZE
 
         public void LearnQFunction(Board board)
         {
+            UpdateQtable(board);
+           
+        }
 
-
+        void UpdateQtable(Board board)
+        {
+            foreach(var move in board.GetAvailableMoves())
+            {
+                var stateCopy = board;
+                stateCopy.MakeMove(move);
+                if (Qtable.Where(x => x.State == stateCopy).FirstOrDefault() == null)
+                    Qtable.Add(new MoveStates { State = stateCopy });      
+            }
         }
 
         double CountReward(Board board, MoveStates moveStates, double currentQValue)
@@ -31,15 +42,15 @@ namespace Game.Learnings
         }
 
 
-
-        public int Reward(Board board)
+        //REMIS?
+        public double Reward(Board board)
         {
             if (board.GetWinner().HasValue && board.GetWinner() == (Player)board.CurrentPlayer)
                 return 1;
             else if (board.GetWinner().HasValue && board.GetWinner() == (Player)(1 - board.CurrentPlayer))
-                return -1;
-            else
                 return 0;
+            else
+                return 0.5;
         }
     }
 }
