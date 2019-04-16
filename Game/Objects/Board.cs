@@ -116,7 +116,7 @@ namespace Game.Objects
             return result;
         }
 
-        public Player? GetWinner()
+        private Player? GetWinner()
         {
             // Check columns
             for (var col = 0; col < Size; col++)
@@ -140,7 +140,7 @@ namespace Game.Objects
             return null;
         }
 
-        public bool AllFieldsTheSame(int startRow, int startColumn, int dy, int dx)
+        private bool AllFieldsTheSame(int startRow, int startColumn, int dy, int dx)
         {
             var firstCell = Cells[startRow, startColumn];
             if (firstCell.State == Cell.CellState.Empty)

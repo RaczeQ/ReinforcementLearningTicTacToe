@@ -39,4 +39,12 @@
         {
         }
     }
+
+    public class QLearningRewardReturnException : TicTacToeException
+    {
+        public QLearningRewardReturnException()
+            : base("Cannot return reward for a game in progress!")
+        {
+        }
+    }
 }

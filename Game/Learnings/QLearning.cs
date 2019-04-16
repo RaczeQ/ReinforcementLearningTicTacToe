@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game.Exceptions;
 using Game.Objects;
 using static Game.Objects.Board;
 
@@ -36,22 +37,28 @@ namespace Game.Learnings
 
         double CountReward(Board board, MoveStates moveStates, double currentQValue)
         {
-            if (board.GetWinner().HasValue)
+            var state = board.GetGameState();
+            if (state.Item1 != GameState.InProgress)
                 return Reward(board);
             else
                 return currentQValue + LEARNING_RATE * (DISCOUNT_FACTOR * (moveStates.QValue.Max() - currentQValue)); 
         }
 
-
-        //REMIS?
         public double Reward(Board board)
         {
-            if (board.GetWinner().HasValue && board.GetWinner() == (Player)board.CurrentPlayer)
-                return 1;
-            else if (board.GetWinner().HasValue && board.GetWinner() == (Player)(1 - board.CurrentPlayer))
-                return 0;
-            else
+            var state = board.GetGameState();
+            if (state.Item1 == GameState.InProgress)
+            {
+                throw new QLearningRewardReturnException();
+            }
+            else if (state.Item1 == GameState.Tie)
+            {
                 return 0.5;
+            }
+            else
+            {
+                return state.Item2 == board.GetCurrentPlayer() ? 1 : 0;
+            }
         }
     }
 }
