@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Game.Results
 {
     public class ResultWriter
     {
+        private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         private static String directory = DateTime.Now.ToString("yyyyMMddTHHmmssfff");
         static ReaderWriterLock locker = new ReaderWriterLock();
 
@@ -32,7 +35,7 @@ namespace Game.Results
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error occured {0}, during saving process", e.Message);
+                _logger.Error("Error occured {0}, during saving process", e.Message);
             }
             finally
             {

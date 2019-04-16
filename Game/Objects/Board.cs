@@ -1,4 +1,5 @@
 ﻿using Game.Exceptions;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ namespace Game.Objects
 {
     public class Board
     {
+        private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         public static readonly int DEFAULT_SIZE = 3;
         public static readonly int MAX_BOARD_SIZE = 5;
         public enum Player { X = 0, O = 1 }
@@ -22,7 +24,7 @@ namespace Game.Objects
         {
             if (size > MAX_BOARD_SIZE)
             {
-                Console.WriteLine($"Warning! Setting board size to {MAX_BOARD_SIZE}.");
+                _logger.Warn($"Warning! Setting board size to {MAX_BOARD_SIZE}.");
                 size = MAX_BOARD_SIZE;
             }
 
