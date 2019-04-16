@@ -24,7 +24,7 @@ namespace Game.Learnings
         public void LearnQFunction(Board board)
         {
             UpdateQtable(board);
-           
+          
         }
 
         void UpdateQtable(Board board)
@@ -33,8 +33,9 @@ namespace Game.Learnings
             {
                 var stateCopy = board;
                 stateCopy.MakeMove(move);
-                if (Qtable.Where(x => x.State == stateCopy).FirstOrDefault() == null)
-                    Qtable.Add(new MoveStates { State = stateCopy });      
+                if (Qtable.Where(x => x.State == stateCopy.GetHashCode()).FirstOrDefault() == null)
+                    Qtable.Add(new MoveStates { State = stateCopy.GetHashCode() });  
+                
             }
         }
 
