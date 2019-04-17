@@ -36,7 +36,7 @@ namespace Game.Learnings
         }
 
 
-        public double? LearnFromMoves(Board board)
+        private double? LearnFromMoves(Board board)
         {
             if(!(board.GetGameState().Item1 == Board.GameState.InProgress))
             {
@@ -58,16 +58,16 @@ namespace Game.Learnings
             }
         }
 
-        Tuple<int, int> GetMoveCoordinatesFromQValue(int index)
+        private Tuple<int, int> GetMoveCoordinatesFromQValue(int index)
         {
             int x = (int)Math.Floor((double)(index / Board.DEFAULT_SIZE));
             int y = index - (x * Board.DEFAULT_SIZE);
             return new Tuple<int, int>(x, y);
         }
 
-     
 
-        public double GetReward(Board board)
+
+        private double GetReward(Board board)
         {
             var state = board.GetGameState();
             if (state.Item1 == GameState.InProgress)
@@ -84,6 +84,11 @@ namespace Game.Learnings
             }
         }
 
+
+         private void SaveTrainingResult()
+         {
+
+         }
       
     }
 }

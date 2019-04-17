@@ -10,6 +10,12 @@ namespace Game
     {
         public static readonly int BATTLE_NUM = 1;
 
+        public static void LearnAgent()
+        {
+            QLearning qLearning = new QLearning();
+            qLearning.Train();
+        }
+
         static void Main(string[] args)
         {
             // Debug - Shows every player move
@@ -17,8 +23,8 @@ namespace Game
             // Warn - just simulation result
             NLogConfigurator.Configure(LogLevel.Warn);
 
-            //QFunction.GenerateTabularQFunction();
-            TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+            LearnAgent();
+            //TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
             Console.ReadLine();
         }
     }

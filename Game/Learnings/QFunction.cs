@@ -11,8 +11,6 @@ namespace Game.Learnings
     public class QFunction
     {
         static readonly double DEAFULT_VALUE = 0.6;
-        public static List<QValue> TabluarQFunction { get; set; } = new List<QValue>();
-
         public static Dictionary<int, double?[]> Table {get; set;} = new Dictionary<int, double?[]>();
 
         public static void GenerateTabularQFunction()
