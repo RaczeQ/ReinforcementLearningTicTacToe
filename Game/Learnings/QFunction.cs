@@ -13,16 +13,19 @@ namespace Game.Learnings
         static readonly double DEAFULT_VALUE = 0.6;
         public static List<QValue> TabluarQFunction { get; set; } = new List<QValue>();
 
+        public static Dictionary<int, double?[]> Table {get; set;} = new Dictionary<int, double?[]>();
+
         public static void GenerateTabularQFunction()
         { 
             var b = new Board();
-            TabluarQFunction.Add(new QValue
-            {
-                State = b.GetHashCode(),
-                Actions = InitializeActions(b.GetAvailableMoves())
-            });
-            ExploreStates(b);    
+           
+            if(!Table.ContainsKey(b.GetHashCode()))
+                Table.Add(b.GetHashCode(), InitializeActions(b.GetAvailableMoves()));
+
+            ExploreStates(b);
+            var t = Table;
         }
+
         public static void ExploreStates(Board board)
         {   
             if (!(board.GetGameState().Item1 == Board.GameState.Finished))
@@ -32,15 +35,13 @@ namespace Game.Learnings
                     var copy = board.GetBoardCopy();
                     copy.MakeMove(move);
                     var hash = copy.GetHashCode();
-                    if(!TabluarQFunction.Any(x=> x.State==hash))
+                    
+                    if (!Table.ContainsKey(hash))
                     {
-                        TabluarQFunction.Add( new QValue
-                        {
-                            State = hash,
-                            Actions = InitializeActions(copy.GetAvailableMoves())
+                        Table.Add(hash, InitializeActions(copy.GetAvailableMoves()));
+                    };
 
-                        });
-                    }
+
                     ExploreStates(copy);
                 }
             }

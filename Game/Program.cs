@@ -8,7 +8,7 @@ namespace Game
 {
     class Program
     {
-        public static readonly int BATTLE_NUM = 1000;
+        public static readonly int BATTLE_NUM = 1;
 
         static void Main(string[] args)
         {

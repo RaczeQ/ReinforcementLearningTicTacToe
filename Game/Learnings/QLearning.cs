@@ -19,7 +19,7 @@ namespace Game.Learnings
         private static readonly double TIE_REWARD_VALUE = 0.5;
         private static readonly double LOSS_REWARD_VALUE = 0.0;
 
-        private static readonly int EPISODES_NUM =5;
+        private static readonly int EPISODES_NUM =10;
 
         Random r = new Random();
         public static Matrix<double> QFunctionMatrix { get; set; }
@@ -32,8 +32,7 @@ namespace Game.Learnings
             {
                 var board = new Board();
                 LearnFromMoves(board);
-            }
-                
+            }      
         }
 
 
@@ -46,17 +45,17 @@ namespace Game.Learnings
             else
             {      
                 var currentBoard = board.GetBoardCopy();
-                var currentStateQValue = QFunction.TabluarQFunction.Where(s => s.State == currentBoard.GetHashCode()).FirstOrDefault();
-                var index = currentStateQValue.Actions.ToList().IndexOf(currentStateQValue.Actions.Max());
+
+                var currentStateQValue = QFunction.Table[currentBoard.GetHashCode()];
+                var index = Array.IndexOf(currentStateQValue, currentStateQValue.Max());
                 board.MakeMove(GetMoveCoordinatesFromQValue(index));
-                var nextMoveReward  = LearnFromMoves(board);
+                var nextMoveReward = LearnFromMoves(board);
 
-                QFunction.TabluarQFunction.Where(s => s.State == currentBoard.GetHashCode()).FirstOrDefault().Actions[index]
-                    = currentStateQValue.Actions[index] + LEARNING_RATE
-                    * (DISCOUNT_FACTOR * (nextMoveReward) - currentStateQValue.Actions[index]);
+                QFunction.Table[currentBoard.GetHashCode()][index] = currentStateQValue[index] + LEARNING_RATE
+                    * (DISCOUNT_FACTOR * (nextMoveReward) - currentStateQValue[index]);
 
-                return QFunction.TabluarQFunction.Where(s => s.State == currentBoard.GetHashCode()).FirstOrDefault().Actions[index];
-            }              
+                return QFunction.Table[currentBoard.GetHashCode()][index];
+            }
         }
 
         Tuple<int, int> GetMoveCoordinatesFromQValue(int index)
