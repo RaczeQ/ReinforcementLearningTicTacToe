@@ -16,10 +16,7 @@ namespace Game.Players
         public Tuple<int, int> GetMove(Board board)
         {
             var nextMove = qLearning.GetMoveFromQFunction(board);
-
-            var moves = board.GetAvailableMoves();
             return nextMove;
-           // moves.ElementAt(r.Next(moves.Count));
         }
     }
 }

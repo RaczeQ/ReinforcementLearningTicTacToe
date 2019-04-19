@@ -7,6 +7,7 @@ using Game.Learnings;
 using Game.Objects;
 using Game.Results;
 using MathNet.Numerics.LinearAlgebra;
+using NLog;
 using static Game.Objects.Board;
 
 namespace Game.Learnings
@@ -14,26 +15,30 @@ namespace Game.Learnings
     public class QLearning : ILearnQFunction, IUseQFunction
     {
 
-        public static readonly double LEARNING_RATE = 0.9;
-        public static readonly double DISCOUNT_FACTOR = 0.95;
+        public static double LEARNING_RATE = 0.9;
+        public static double DISCOUNT_FACTOR = 0.95;
 
         private static readonly double WIN_REWARD_VALUE = 1.0;
         private static readonly double TIE_REWARD_VALUE = 0.5;
         private static readonly double LOSS_REWARD_VALUE = 0.0;
 
-        private static readonly int EPISODES_NUM =1000000;
+        private static readonly int EPISODES_NUM =1000;
 
         public static Matrix<double> QFunctionMatrix { get; set; }
+        private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public void LearnQFunction()
+        public void LearnQFunction(double? learning_rate=null, double? discount_rate=null)
         {
+            
+            LEARNING_RATE = learning_rate ?? LEARNING_RATE;
+            DISCOUNT_FACTOR = discount_rate ?? DISCOUNT_FACTOR;
+
             QFunction.GenerateTabularQFunction();
             
             for (int i=0; i<EPISODES_NUM; i++)
             {
                 var board = new Board();
                 LearnFromMoves(board);
-                Console.WriteLine("Iteration {0} finished", i);
             }
 
             SaveQFunction();
@@ -49,10 +54,8 @@ namespace Game.Learnings
             else
             {      
                 var currentBoard = board.GetBoardCopy();
-
                 var currentStateQValue = QFunction.Table[currentBoard.GetHashCode()];
                 var index = Array.IndexOf(currentStateQValue, currentStateQValue.Where(x => x.HasValue).OrderBy(y => Guid.NewGuid()).FirstOrDefault());
-                //currentStateQValue.Where(x=> x.HasValue)
                 board.MakeMove(GetMoveCoordinatesFromQValue(index));
                 var nextMoveReward = LearnFromMoves(board);
 
@@ -93,7 +96,7 @@ namespace Game.Learnings
       
         public void SaveQFunction()
         {
-            Writer.SaveResult(QFunction.Table, ResultResources.Q_FUNCTION_FILE);
+            Writer.SaveResult(QFunction.Table, String.Format("{0}_{1}_{2}",ResultResources.Q_FUNCTION_FILE, LEARNING_RATE, DISCOUNT_FACTOR));
         }
 
         public Tuple<int, int> GetMoveFromQFunction(Board board)
@@ -105,7 +108,7 @@ namespace Game.Learnings
         public void LoadQFunction()
         {
             var path = AppDomain.CurrentDomain.BaseDirectory + "/Results";
-            var file = String.Format(path + "/{0}.txt", ResultResources.Q_FUNCTION_FILE);
+            var file = String.Format(path + "/{0}.txt", String.Format("{0}_{1}_{2}", ResultResources.Q_FUNCTION_FILE, LEARNING_RATE, DISCOUNT_FACTOR));
 
             if (!File.Exists(file))
                 throw new QFunctionFileDoesNotExist();
