@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Game.ConsoleUtils;
 using Game.Exceptions;
-using Game.Learnings;
 using Game.Objects;
 using Game.Results;
 using MathNet.Numerics.LinearAlgebra;
 using static Game.Objects.Board;
+using NLog;
 
 namespace Game.Learnings
 {
     public class QLearning : ILearnQFunction, IUseQFunction
     {
+        private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static readonly double LEARNING_RATE = 0.9;
         public static readonly double DISCOUNT_FACTOR = 0.95;
@@ -21,20 +23,25 @@ namespace Game.Learnings
         private static readonly double TIE_REWARD_VALUE = 0.5;
         private static readonly double LOSS_REWARD_VALUE = 0.0;
 
-        private static readonly int EPISODES_NUM =1000000;
+        private static readonly int EPISODES_NUM = 1000000;
 
         public static Matrix<double> QFunctionMatrix { get; set; }
 
         public void LearnQFunction()
         {
             QFunction.GenerateTabularQFunction();
-            
+
             for (int i=0; i<EPISODES_NUM; i++)
             {
                 var board = new Board();
                 LearnFromMoves(board);
-                Console.WriteLine("Iteration {0} finished", i);
+                if (i % 1000 == 0)
+                {
+                    ConsoleProgressBar.drawProgressBar(i, EPISODES_NUM);
+                }
             }
+
+            ConsoleProgressBar.drawProgressBar(EPISODES_NUM, EPISODES_NUM);
 
             SaveQFunction();
         }
@@ -42,23 +49,21 @@ namespace Game.Learnings
 
         private double? LearnFromMoves(Board board)
         {
-            if(!(board.GetGameState().Item1 == Board.GameState.InProgress))
+            if(board.GetGameState().Item1 != Board.GameState.InProgress)
             {
                 return GetReward(board);
             }
             else
-            {      
+            {
                 var currentBoard = board.GetBoardCopy();
-
                 var currentStateQValue = QFunction.Table[currentBoard.GetHashCode()];
+
                 var index = Array.IndexOf(currentStateQValue, currentStateQValue.Where(x => x.HasValue).OrderBy(y => Guid.NewGuid()).FirstOrDefault());
-                //currentStateQValue.Where(x=> x.HasValue)
                 board.MakeMove(GetMoveCoordinatesFromQValue(index));
                 var nextMoveReward = LearnFromMoves(board);
 
                 QFunction.Table[currentBoard.GetHashCode()][index] = currentStateQValue[index] + LEARNING_RATE
-                    * (DISCOUNT_FACTOR * (nextMoveReward) - currentStateQValue[index]);
-
+                                                                     * (DISCOUNT_FACTOR * (nextMoveReward) - currentStateQValue[index]);
                 return QFunction.Table[currentBoard.GetHashCode()][index];
             }
         }

@@ -50,6 +50,10 @@ namespace Game.Results
         public static void SaveResult(Dictionary<int, double?[]> result, string fileName)
         {
             var path = AppDomain.CurrentDomain.BaseDirectory + "/Results";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
             var file = String.Format(path + "/{0}.txt", fileName);
 
             using (StreamWriter fw=new StreamWriter(file))

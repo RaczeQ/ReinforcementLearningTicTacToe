@@ -56,13 +56,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleUtils\ConsoleProgressBarUpdater.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="Learnings\ILearnQFunction.cs" />
     <Compile Include="Learnings\IUseQFunction.cs" />
     <Compile Include="Learnings\QFunction.cs" />
     <Compile Include="Learnings\IQLearning.cs" />
     <Compile Include="Learnings\QLearning.cs" />
-    <Compile Include="NLogConfigurator.cs" />
+    <Compile Include="ConsoleUtils\NLogConfigurator.cs" />
     <Compile Include="Objects\Board.cs" />
     <Compile Include="Objects\Cell.cs" />
     <Compile Include="Players\IPlayer.cs" />

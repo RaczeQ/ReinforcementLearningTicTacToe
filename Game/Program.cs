@@ -2,13 +2,14 @@
 using Game.Objects;
 using NLog;
 using System;
+using Game.ConsoleUtils;
 using static Game.Players.PlayerManager;
 
 namespace Game
 {
     class Program
     {
-        public static readonly int BATTLE_NUM =100;
+        public static readonly int BATTLE_NUM = 1000;
         static ILearnQFunction qLearning = new QLearning();
 
         public static void TrainQFunction()

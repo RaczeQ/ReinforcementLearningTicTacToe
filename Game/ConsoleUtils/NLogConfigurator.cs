@@ -3,7 +3,7 @@ using NLog.Conditions;
 using NLog.Layouts;
 using NLog.Targets;
 
-namespace Game
+namespace Game.ConsoleUtils
 {
     public static class NLogConfigurator
     {
