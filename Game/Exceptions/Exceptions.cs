@@ -47,4 +47,9 @@
         {
         }
     }
+
+    public class QFunctionFileDoesNotExist : TicTacToeException
+    {
+        public QFunctionFileDoesNotExist(): base("File with q function does not exists") { }
+    }
 }

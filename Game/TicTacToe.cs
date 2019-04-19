@@ -41,7 +41,7 @@ namespace Game
                 {
                     _logger.Info($"Won player {state.Item2}");
                     wins[state.Item2.Value]++;
-                    ResultWriter.SaveResult(state.Item2.ToString(), String.Format("{0}_{1}_{2}_{3}_{4}", player1, player2, battleNum, QLearning.LEARNING_RATE, QLearning.DISCOUNT_FACTOR));
+                    Writer.SaveResult(state.Item2.ToString(), String.Format("{0}_{1}_{2}_{3}_{4}", player1, player2, battleNum, QLearning.LEARNING_RATE, QLearning.DISCOUNT_FACTOR));
                 }
             }
             _logger.Warn($"X: {wins[Board.Player.X]}, O: {wins[Board.Player.O]}, Ties: {ties}");

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Game.Results
 {
-    public class ResultWriter
+    public class Writer
     {
         private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -47,16 +47,18 @@ namespace Game.Results
             directory = dir;
         }
 
-        public static void SaveResult(List<int> result, string fileName)
+        public static void SaveResult(Dictionary<int, double?[]> result, string fileName)
         {
             var path = AppDomain.CurrentDomain.BaseDirectory + "/Results";
             var file = String.Format(path + "/{0}.txt", fileName);
-            using (var f = File.CreateText(file))
+
+            using (StreamWriter fw=new StreamWriter(file))
             {
-                foreach (var res in result)
+                foreach(var item in result)
                 {
-                    f.WriteLine(string.Join("\n", res));
+                    fw.WriteLine("{0}; {1}", item.Key, String.Join(";", item.Value));
                 }
+                fw.Close();
             }
         }
     }

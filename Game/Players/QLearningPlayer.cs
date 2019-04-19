@@ -10,16 +10,16 @@ namespace Game.Players
 {
     class QLearningPlayer : IPlayer
     {
-        QLearning qLearning = new QLearning();
+        IUseQFunction qLearning = new QLearning();
         Random r = new Random();
 
         public Tuple<int, int> GetMove(Board board)
         {
-
-            qLearning.Train();
+            var nextMove = qLearning.GetMoveFromQFunction(board);
 
             var moves = board.GetAvailableMoves();
-            return moves.ElementAt(r.Next(moves.Count));
+            return nextMove;
+           // moves.ElementAt(r.Next(moves.Count));
         }
     }
 }

@@ -8,12 +8,17 @@ namespace Game
 {
     class Program
     {
-        public static readonly int BATTLE_NUM = 1;
+        public static readonly int BATTLE_NUM =100;
+        static ILearnQFunction qLearning = new QLearning();
 
-        public static void LearnAgent()
+        public static void TrainQFunction()
         {
-            QLearning qLearning = new QLearning();
-            qLearning.Train();
+            qLearning.LearnQFunction();
+        }
+
+        public static void LoadQFunction()
+        {
+            qLearning.LoadQFunction();
         }
 
         static void Main(string[] args)
@@ -23,8 +28,9 @@ namespace Game
             // Warn - just simulation result
             NLogConfigurator.Configure(LogLevel.Warn);
 
-            LearnAgent();
-            //TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+            TrainQFunction();
+            LoadQFunction();
+            TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
             Console.ReadLine();
         }
     }
