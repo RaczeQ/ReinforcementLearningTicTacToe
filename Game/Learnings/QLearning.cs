@@ -51,7 +51,8 @@ namespace Game.Learnings
                 var currentBoard = board.GetBoardCopy();
 
                 var currentStateQValue = QFunction.Table[currentBoard.GetHashCode()];
-                var index = Array.IndexOf(currentStateQValue, currentStateQValue.Max());
+                var index = Array.IndexOf(currentStateQValue, currentStateQValue.Where(x => x.HasValue).OrderBy(y => Guid.NewGuid()).FirstOrDefault());
+                //currentStateQValue.Where(x=> x.HasValue)
                 board.MakeMove(GetMoveCoordinatesFromQValue(index));
                 var nextMoveReward = LearnFromMoves(board);
 
