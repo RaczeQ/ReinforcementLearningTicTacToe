@@ -8,29 +8,27 @@ using Game.Objects;
 using Game.Results;
 using MathNet.Numerics.LinearAlgebra;
 using static Game.Objects.Board;
-using NLog;
 
 namespace Game.Learnings
 {
     public class QLearning : ILearnQFunction, IUseQFunction
     {
-        private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static readonly double LEARNING_RATE = 0.9;
-        public static readonly double DISCOUNT_FACTOR = 0.95;
+        public static double LEARNING_RATE = 0.9;
+        public static double DISCOUNT_FACTOR = 0.95;
 
         private static readonly double WIN_REWARD_VALUE = 1.0;
         private static readonly double TIE_REWARD_VALUE = 0.5;
         private static readonly double LOSS_REWARD_VALUE = 0.0;
 
-        private static readonly int EPISODES_NUM = 1000000;
+        public static readonly int EPISODES_NUM =1000000;
 
         public static Matrix<double> QFunctionMatrix { get; set; }
 
         public void LearnQFunction()
         {
             QFunction.GenerateTabularQFunction();
-
+            
             for (int i=0; i<EPISODES_NUM; i++)
             {
                 var board = new Board();
@@ -57,13 +55,13 @@ namespace Game.Learnings
             {
                 var currentBoard = board.GetBoardCopy();
                 var currentStateQValue = QFunction.Table[currentBoard.GetHashCode()];
-
                 var index = Array.IndexOf(currentStateQValue, currentStateQValue.Where(x => x.HasValue).OrderBy(y => Guid.NewGuid()).FirstOrDefault());
                 board.MakeMove(GetMoveCoordinatesFromQValue(index));
                 var nextMoveReward = LearnFromMoves(board);
 
                 QFunction.Table[currentBoard.GetHashCode()][index] = currentStateQValue[index] + LEARNING_RATE
-                                                                     * (DISCOUNT_FACTOR * (nextMoveReward) - currentStateQValue[index]);
+                    * (DISCOUNT_FACTOR * (nextMoveReward) - currentStateQValue[index]);
+
                 return QFunction.Table[currentBoard.GetHashCode()][index];
             }
         }

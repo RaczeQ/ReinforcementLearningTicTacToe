@@ -65,5 +65,36 @@ namespace Game.Results
                 fw.Close();
             }
         }
+
+        public static void SaveQLearningResults(string header, string result)
+        {
+            try
+            {
+                locker.AcquireWriterLock(int.MaxValue);
+                var path = AppDomain.CurrentDomain.BaseDirectory + "/Results/" ;
+                var file = String.Format(path + "/{0}.txt", ResultResources.Q_FUNCTION_RESULT_FILE);
+
+                if (!File.Exists(file))
+                {
+                    using (StreamWriter sw = File.AppendText(file))
+                    {
+                        sw.WriteLine(header);
+                    }
+                }
+
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(result);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Error occured {0}, during saving process", e.Message);
+            }
+            finally
+            {
+                locker.ReleaseReaderLock();
+            }
+        }
     }
 }
