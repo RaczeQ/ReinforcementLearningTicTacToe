@@ -8,7 +8,7 @@ namespace Game.Learnings
 {
     interface ILearnQFunction
     {
-        void LearnQFunction(double? learning_rate = null, double? discount_rate=null);
+        void LearnQFunction();
         void LoadQFunction();
         void SaveQFunction();
     }

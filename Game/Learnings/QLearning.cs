@@ -22,17 +22,14 @@ namespace Game.Learnings
         private static readonly double TIE_REWARD_VALUE = 0.5;
         private static readonly double LOSS_REWARD_VALUE = 0.0;
 
-        private static readonly int EPISODES_NUM =1000;
+        public static readonly int EPISODES_NUM =1000000;
 
         public static Matrix<double> QFunctionMatrix { get; set; }
         private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public void LearnQFunction(double? learning_rate=null, double? discount_rate=null)
+        public void LearnQFunction()
         {
-            
-            LEARNING_RATE = learning_rate ?? LEARNING_RATE;
-            DISCOUNT_FACTOR = discount_rate ?? DISCOUNT_FACTOR;
-
+           
             QFunction.GenerateTabularQFunction();
             
             for (int i=0; i<EPISODES_NUM; i++)
@@ -96,7 +93,7 @@ namespace Game.Learnings
       
         public void SaveQFunction()
         {
-            Writer.SaveResult(QFunction.Table, String.Format("{0}_{1}_{2}",ResultResources.Q_FUNCTION_FILE, LEARNING_RATE, DISCOUNT_FACTOR));
+            Writer.SaveResult(QFunction.Table, ResultResources.Q_FUNCTION_FILE);
         }
 
         public Tuple<int, int> GetMoveFromQFunction(Board board)
@@ -108,7 +105,7 @@ namespace Game.Learnings
         public void LoadQFunction()
         {
             var path = AppDomain.CurrentDomain.BaseDirectory + "/Results";
-            var file = String.Format(path + "/{0}.txt", String.Format("{0}_{1}_{2}", ResultResources.Q_FUNCTION_FILE, LEARNING_RATE, DISCOUNT_FACTOR));
+            var file = String.Format(path + "/{0}.txt", ResultResources.Q_FUNCTION_FILE);
 
             if (!File.Exists(file))
                 throw new QFunctionFileDoesNotExist();

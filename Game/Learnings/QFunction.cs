@@ -10,11 +10,13 @@ namespace Game.Learnings
 {
     public class QFunction
     {
-        static readonly double DEAFULT_VALUE = 0.6;
+        public static double DEAFULT_VALUE = 0.6;
         public static Dictionary<int, double?[]> Table {get; set;} = new Dictionary<int, double?[]>();
 
         public static void GenerateTabularQFunction()
-        { 
+        {
+
+
             var b = new Board();
            
             if(!Table.ContainsKey(b.GetHashCode()))
