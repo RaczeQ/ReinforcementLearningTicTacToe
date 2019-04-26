@@ -10,7 +10,7 @@ namespace Game
 {
     class Program
     {
-        public static readonly int BATTLE_NUM = 1000;
+        public static readonly int BATTLE_NUM = 100000;
         static ILearnQFunction qLearning = new QLearning();
 
         public static void TrainQFunction()
@@ -28,22 +28,22 @@ namespace Game
             var discount_factor = new List<double> { 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95 };
             var default_value = new List<double> { 0.1, 0.2, 0.3, 0.4, .5, 0.6, 0.7, 0.8, 0.9 };
 
-            foreach (var dv in default_value)
-            {
-                foreach (var l in learning_rate)
-                {
-                    foreach (var d in discount_factor)
-                    {
-                        QLearning.LEARNING_RATE = l;
-                        QLearning.DISCOUNT_FACTOR = d;
-                        QFunction.DEAFULT_VALUE = dv;
+            //foreach (var dv in default_value)
+            //{
+            //    foreach (var l in learning_rate)
+            //    {
+            //        foreach (var d in discount_factor)
+            //        {
+                        QLearning.LEARNING_RATE = 0.1;
+                        QLearning.DISCOUNT_FACTOR = 0.9;
+                        QFunction.DEAFULT_VALUE = 0.6;
                         TrainQFunction();
                         LoadQFunction();
                         TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
                         TicTacToe.RunGame(PlayerType.Random, PlayerType.QLearning, Board.DEFAULT_SIZE, BATTLE_NUM);
-                    }
-                }
-            }
+            //        }
+            //    }
+            //}
         }
 
         static void Main(string[] args)
@@ -54,6 +54,8 @@ namespace Game
             NLogConfigurator.Configure(LogLevel.Warn);
 
             AnalyzeQLearningParameters();
+
+            //TicTacToe.RunGame(PlayerType.Random, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
             Console.ReadLine();
         }
     }

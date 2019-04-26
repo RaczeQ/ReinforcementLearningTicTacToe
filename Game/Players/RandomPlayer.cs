@@ -6,7 +6,7 @@ namespace Game.Players
 {
     public class RandomPlayer : IPlayer
     {
-        Random r = new Random();
+        private static Random r = new Random();
 
         public Tuple<int, int> GetMove(Board board)
         {

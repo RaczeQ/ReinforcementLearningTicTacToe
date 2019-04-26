@@ -12,18 +12,19 @@ namespace Game.Learnings
     {
         public static double DEAFULT_VALUE = 0.6;
         public static Dictionary<int, double?[]> Table {get; set;} = new Dictionary<int, double?[]>();
+        public static int counter = 0;
 
         public static void GenerateTabularQFunction()
         {
+            for (int i = 0; i < 2; i++)
+            {
+                var b = new Board((Board.Player)i);
 
+                if (!Table.ContainsKey(b.GetHashCode()))
+                    Table.Add(b.GetHashCode(), InitializeActions(b.GetAvailableMoves()));
 
-            var b = new Board();
-           
-            if(!Table.ContainsKey(b.GetHashCode()))
-                Table.Add(b.GetHashCode(), InitializeActions(b.GetAvailableMoves()));
-
-            ExploreStates(b);
-            var t = Table;
+                ExploreStates(b);
+            }
         }
 
         public static void ExploreStates(Board board)
@@ -40,8 +41,7 @@ namespace Game.Learnings
                     {
                         Table.Add(hash, InitializeActions(copy.GetAvailableMoves()));
                     };
-
-
+                    
                     ExploreStates(copy);
                 }
             }

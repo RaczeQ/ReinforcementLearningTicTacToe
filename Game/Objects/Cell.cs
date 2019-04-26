@@ -33,10 +33,10 @@ namespace Game.Objects
 
         public override bool Equals(object obj)
         {
-            if (obj == null || this.GetType() != obj.GetType())
+            Cell c = (Cell)obj;
+            if (c == null)
                 return false;
 
-            Cell c = (Cell)obj;
             return (this.State == c.State);
         }
 

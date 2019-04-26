@@ -18,9 +18,9 @@ namespace Game.Objects
         private int Size { get; set; }
         private Cell[,] Cells { get; set; }
 
-        public Board() : this(DEFAULT_SIZE) { }
+        public Board(Player currentPlayer = Player.X) : this(DEFAULT_SIZE) { }
 
-        public Board(int size)
+        public Board(int size, Player currentPlayer = Player.X)
         {
             if (size > MAX_BOARD_SIZE)
             {
@@ -37,6 +37,7 @@ namespace Game.Objects
                     Cells[r, c] = new Cell();
                 }
             }
+            CurrentPlayer = (int)currentPlayer;
         }
 
         public Board(Board b)
@@ -186,18 +187,17 @@ namespace Game.Objects
 
         public override int GetHashCode()
         {
-            int hash = 17;
-            for (int i = 0; i < Size; i++)
+            string board = string.Join("", Cells.OfType<Cell>().Select(x => x.State.ToString()[0])) + "_" + GetCurrentPlayer().ToString();
+
+            unchecked
             {
-                for (int j = 0; j < Size; j++)
+                int hash = 23;
+                foreach (char c in board)
                 {
-                    hash = hash * 31 + Cells[i, j].State.GetHashCode();
+                    hash = hash * 31 + c;
                 }
+                return hash;
             }
-
-            hash = hash * 31 + GetCurrentPlayer().GetHashCode();
-
-            return hash;
         }
     }
 }
