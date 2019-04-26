@@ -187,15 +187,19 @@ namespace Game.Objects
 
         public override int GetHashCode()
         {
-            string board = string.Join("", Cells.OfType<Cell>().Select(x => x.State.ToString()[0])) + "_" + GetCurrentPlayer().ToString();
-
             unchecked
             {
                 int hash = 23;
-                foreach (char c in board)
+                for (int i = 0; i < Size; i++)
                 {
-                    hash = hash * 31 + c;
+                    for (int j = 0; j < Size; j++)
+                    {
+                        hash = hash * 31 + Cells[i, j].State.GetHashCode();
+                    }
                 }
+
+                hash = hash * 31 + GetCurrentPlayer().GetHashCode();
+
                 return hash;
             }
         }
