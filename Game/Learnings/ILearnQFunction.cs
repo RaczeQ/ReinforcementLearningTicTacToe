@@ -8,7 +8,7 @@ namespace Game.Learnings
 {
     interface ILearnQFunction
     {
-        void LearnQFunction();
+        void LearnQFunction(bool updateQFunction);
         void LoadQFunction();
         void SaveQFunction();
     }

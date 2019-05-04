@@ -13,9 +13,9 @@ namespace Game
         public static readonly int BATTLE_NUM = 100000;
         static ILearnQFunction qLearning = new QLearning();
 
-        public static void TrainQFunction()
+        public static void TrainQFunction(bool updateQFunction)
         {
-            qLearning.LearnQFunction();
+            qLearning.LearnQFunction(updateQFunction);
         }
 
         public static void LoadQFunction()
@@ -37,13 +37,30 @@ namespace Game
                         QLearning.LEARNING_RATE = 0.1;
                         QLearning.DISCOUNT_FACTOR = 0.9;
                         QFunction.DEAFULT_VALUE = 0.6;
-                        TrainQFunction();
+                        TrainQFunction(false);
                         LoadQFunction();
                         TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
                         TicTacToe.RunGame(PlayerType.Random, PlayerType.QLearning, Board.DEFAULT_SIZE, BATTLE_NUM);
             //        }
             //    }
             //}
+        }
+
+        public static void AnalyzeQLearningAlgorithm()
+        {
+            QLearning.LEARNING_RATE = 0.1;
+            QLearning.DISCOUNT_FACTOR = 0.9;
+            QFunction.DEAFULT_VALUE = 0.6;
+
+            TrainQFunction(false);
+            LoadQFunction();
+            TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+
+            for (int i=1; i<100; i++)
+            {
+                TrainQFunction(true);
+                TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+            }
         }
 
         static void Main(string[] args)
@@ -53,8 +70,8 @@ namespace Game
             // Warn - just simulation result
             NLogConfigurator.Configure(LogLevel.Warn);
 
-            AnalyzeQLearningParameters();
-
+            // AnalyzeQLearningParameters();
+            AnalyzeQLearningAlgorithm();
             //TicTacToe.RunGame(PlayerType.Random, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
             Console.ReadLine();
         }

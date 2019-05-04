@@ -21,17 +21,18 @@ namespace Game.Learnings
         private static readonly double TIE_REWARD_VALUE = 0.5;
         private static readonly double LOSS_REWARD_VALUE = 0.0;
 
-        public static readonly int EPISODES_NUM =1000000;
+        public static readonly int EPISODES_NUM =100;
 
         public static Matrix<double> QFunctionMatrix { get; set; }
 
-        public void LearnQFunction()
+        public void LearnQFunction(bool updateQFunction)
         {
-            QFunction.GenerateTabularQFunction();
+            if(!updateQFunction)
+                QFunction.GenerateTabularQFunction();
             
             for (int i=0; i<EPISODES_NUM; i++)
             {
-                var board = new Board();
+                var board = new Board((Board.Player) (i % 2));
                 LearnFromMoves(board);
                 if (i % 1000 == 0)
                 {
@@ -40,7 +41,6 @@ namespace Game.Learnings
             }
 
             ConsoleProgressBar.drawProgressBar(EPISODES_NUM, EPISODES_NUM);
-
             SaveQFunction();
         }
 
@@ -62,7 +62,7 @@ namespace Game.Learnings
                 QFunction.Table[currentBoard.GetHashCode()][index] = currentStateQValue[index] + LEARNING_RATE
                     * (DISCOUNT_FACTOR * (nextMoveReward) - currentStateQValue[index]);
 
-                return QFunction.Table[currentBoard.GetHashCode()][index];
+                return -QFunction.Table[currentBoard.GetHashCode()][index];
             }
         }
 
