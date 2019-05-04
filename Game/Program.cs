@@ -54,12 +54,15 @@ namespace Game
 
             TrainQFunction(false);
             LoadQFunction();
-            TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+            TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM, 1);
+            TicTacToe.RunGame(PlayerType.Random, PlayerType.QLearning, Board.DEFAULT_SIZE, BATTLE_NUM, 1);
 
-            for (int i=1; i<100; i++)
+
+            for (int i=1; i<QLearning.EPISODES_NUM * 100; i++)
             {
                 TrainQFunction(true);
-                TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+                TicTacToe.RunGame(PlayerType.QLearning, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM, i+1);
+                TicTacToe.RunGame(PlayerType.Random, PlayerType.QLearning, Board.DEFAULT_SIZE, BATTLE_NUM, i+1);
             }
         }
 

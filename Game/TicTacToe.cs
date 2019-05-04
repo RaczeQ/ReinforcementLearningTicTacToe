@@ -12,7 +12,7 @@ namespace Game
     {
         private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static void RunGame(PlayerManager.PlayerType player1, PlayerManager.PlayerType player2, int boardSize, int battleNum)
+        public static void RunGame(PlayerManager.PlayerType player1, PlayerManager.PlayerType player2, int boardSize, int battleNum, int? iter=null)
         {
             var wins = new Dictionary<Board.Player, int> { { Board.Player.X, 0 }, { Board.Player.O, 0 } };
             var ties = 0;
@@ -45,8 +45,8 @@ namespace Game
             }
             _logger.Warn($"X: {wins[Board.Player.X]}, O: {wins[Board.Player.O]}, Ties: {ties}");
 
-            Writer.SaveQLearningResults(String.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", "X wins", "O wins", "ties", "learning rate", "discount factor", "default value", "episode num", "X player"),
-                String.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", wins[Board.Player.X], wins[Board.Player.O], ties, QLearning.LEARNING_RATE, QLearning.DISCOUNT_FACTOR, QFunction.DEAFULT_VALUE, QLearning.EPISODES_NUM, player1));
+            Writer.SaveQLearningResults(String.Format("{0}; {1}; {2}; {3}; {4}; {5}; {6}; {7}; {8}", "X wins", "O wins", "ties", "learning rate", "discount factor", "default value", "episode num", "X player", "Iter"),
+                String.Format("{0}; {1}; {2}; {3}; {4}; {5}; {6}; {7}; {8}", wins[Board.Player.X], wins[Board.Player.O], ties, QLearning.LEARNING_RATE, QLearning.DISCOUNT_FACTOR, QFunction.DEAFULT_VALUE, QLearning.EPISODES_NUM, player1, iter));
             
         }
     }

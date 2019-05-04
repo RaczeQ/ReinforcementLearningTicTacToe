@@ -18,8 +18,8 @@ namespace Game.Learnings
         public static double DISCOUNT_FACTOR = 0.95;
 
         private static readonly double WIN_REWARD_VALUE = 1.0;
-        private static readonly double TIE_REWARD_VALUE = 0.5;
-        private static readonly double LOSS_REWARD_VALUE = 0.0;
+        private static readonly double TIE_REWARD_VALUE = 0;
+        private static readonly double LOSS_REWARD_VALUE = -1;
 
         public static readonly int EPISODES_NUM =100;
 
@@ -29,7 +29,9 @@ namespace Game.Learnings
         {
             if(!updateQFunction)
                 QFunction.GenerateTabularQFunction();
-            
+
+            var temp = QFunction.Table;
+            var test = 5;
             for (int i=0; i<EPISODES_NUM; i++)
             {
                 var board = new Board((Board.Player) (i % 2));
