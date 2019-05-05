@@ -50,7 +50,7 @@ namespace Game
         {
             QLearning.LEARNING_RATE = 0.1;
             QLearning.DISCOUNT_FACTOR = 0.9;
-            QFunction.DEAFULT_VALUE = 0.6;
+            QFunction.DEAFULT_VALUE = 0.1;
 
             TrainQFunction(false);
             LoadQFunction();

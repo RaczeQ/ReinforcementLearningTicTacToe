@@ -97,7 +97,8 @@ namespace Game.Objects
                 throw new CoordinatesOutOfRangeException();
             }
             Cells[row, col].SetState((Cell.CellState) CurrentPlayer);
-            ChangePlayer();
+            if(GetGameState().Item1 != GameState.Finished)
+                ChangePlayer();
         }
 
         public Tuple<GameState, Player?> GetGameState()

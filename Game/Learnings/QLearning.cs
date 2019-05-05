@@ -30,8 +30,6 @@ namespace Game.Learnings
             if(!updateQFunction)
                 QFunction.GenerateTabularQFunction();
 
-            var temp = QFunction.Table;
-            var test = 5;
             for (int i=0; i<EPISODES_NUM; i++)
             {
                 var board = new Board((Board.Player) (i % 2));
@@ -50,7 +48,7 @@ namespace Game.Learnings
         private double? LearnFromMoves(Board board)
         {
             if(board.GetGameState().Item1 != Board.GameState.InProgress)
-            {
+            { 
                 return GetReward(board);
             }
             else
