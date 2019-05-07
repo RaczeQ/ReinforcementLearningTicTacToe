@@ -4,6 +4,8 @@ using NLog;
 using System;
 using Game.ConsoleUtils;
 using System.Collections.Generic;
+using Game.Learnings.RL;
+using Game.Learnings.SL;
 using static Game.Players.PlayerManager;
 
 namespace Game
@@ -69,13 +71,15 @@ namespace Game
         static void Main(string[] args)
         {
             // Debug - Shows every player move
-            // Info - Shows winner for each game with finished board state
+            //// Info - Shows winner for each game with finished board state
             // Warn - just simulation result
-            NLogConfigurator.Configure(LogLevel.Warn);
+            NLogConfigurator.Configure(LogLevel.Info);
 
             // AnalyzeQLearningParameters();
-            AnalyzeQLearningAlgorithm();
-            //TicTacToe.RunGame(PlayerType.Random, PlayerType.Random, Board.DEFAULT_SIZE, BATTLE_NUM);
+//            AnalyzeQLearningAlgorithm();
+//            var dataset = DatasetGenerator.GenerateDataset(10000, true);
+//            DatasetGenerator.SaveDataset(dataset);
+            TicTacToe.RunGame(PlayerType.MLPlayer, PlayerType.Random, Board.DEFAULT_SIZE, 1000);
             Console.ReadLine();
         }
     }

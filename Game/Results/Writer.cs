@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Game.Learnings.SL;
 
 namespace Game.Results
 {
@@ -94,6 +95,31 @@ namespace Game.Results
             finally
             {
                 locker.ReleaseReaderLock();
+            }
+        }
+
+        public static void SaveSupervisedLearningDataset(IList<BoardStateItem> result)
+        {
+            var path = AppDomain.CurrentDomain.BaseDirectory + "/Results";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            var fileName = $"dataset_{result.Count}";
+            var file = String.Format(path + "/{0}.csv", fileName);
+
+            var header =
+                $"{string.Join(",", Enumerable.Range(0, result[0].BoardFields.Length).Select(n => $"x{n}"))},gameResult";
+
+            using (StreamWriter fw = new StreamWriter(file))
+            {
+                fw.WriteLine(header);
+                foreach (var item in result)
+                {
+                    fw.WriteLine("{0},{1}", string.Join(",", item.BoardFields), item.GameResult.ToString());
+                }
+                fw.Close();
             }
         }
     }

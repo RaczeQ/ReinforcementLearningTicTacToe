@@ -9,7 +9,7 @@ using Game.Results;
 using MathNet.Numerics.LinearAlgebra;
 using static Game.Objects.Board;
 
-namespace Game.Learnings
+namespace Game.Learnings.RL
 {
     public class QLearning : ILearnQFunction, IUseQFunction
     {

@@ -16,7 +16,7 @@ namespace Game.Objects
 
         public int CurrentPlayer { get; private set; } = 0;
         private int Size { get; set; }
-        private Cell[,] Cells { get; set; }
+        public Cell[,] Cells { get; private set; }
 
         public Board(Player currentPlayer = Player.X) : this(DEFAULT_SIZE) { }
 
@@ -54,6 +54,30 @@ namespace Game.Objects
             }
         }
 
+        public IList<Board> GetBoardTransformations()
+        {
+            var result = new List<Board>();
+            var currentBoard = GetBoardCopy();
+
+            // Clockwise rotations
+            for (int i = 0; i < 3; i++)
+            {
+                var newBoard = currentBoard.GetBoardCopy();
+                for (int r = Size-1; r >= 0; r--)
+                {
+                    for (int c = 0; c < Size; c++)
+                    {
+                        newBoard.Cells[c, Size-1-r] = currentBoard.Cells[r, c];
+                    }
+                }
+
+                result.Add(newBoard);
+
+                currentBoard = newBoard.GetBoardCopy();
+            }
+            return result;
+        }
+
         public Board GetBoardCopy()
         { 
             return new Board(this);
@@ -67,16 +91,21 @@ namespace Game.Objects
         public IList<Tuple<int, int>> GetAvailableMoves()
         {
             var result = new List<Tuple<int, int>>();
-            for (int r = 0; r < Size; r++)
+
+            if (GetGameState().Item1 == GameState.InProgress)
             {
-                for (int c = 0; c < Size; c++)
+                for (int r = 0; r < Size; r++)
                 {
-                    if (Cells[r, c].State == Cell.CellState.Empty)
+                    for (int c = 0; c < Size; c++)
                     {
-                        result.Add(new Tuple<int, int>(r, c));
+                        if (Cells[r, c].State == Cell.CellState.Empty)
+                        {
+                            result.Add(new Tuple<int, int>(r, c));
+                        }
                     }
                 }
             }
+            
             return result;
         }
 

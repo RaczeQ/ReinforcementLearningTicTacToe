@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game.Learnings
+namespace Game.Learnings.RL
 {
     interface IQLearning
     { 

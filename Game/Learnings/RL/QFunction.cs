@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game.Learnings
+namespace Game.Learnings.RL
 {
     public class QFunction
     {
@@ -29,7 +29,7 @@ namespace Game.Learnings
 
         public static void ExploreStates(Board board)
         {   
-            if (!(board.GetGameState().Item1 == Board.GameState.Finished))
+            if (board.GetGameState().Item1 != Board.GameState.Finished)
             {
                 foreach (var move in board.GetAvailableMoves())
                 {
