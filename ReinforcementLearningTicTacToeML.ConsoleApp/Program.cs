@@ -19,7 +19,7 @@ namespace ReinforcementLearningTicTacToeML.ConsoleApp
         private const string MODEL_FILEPATH = @"MLModel.zip";
 
         //Dataset to use for predictions 
-        private const string DATA_FILEPATH = @"D:\PWr\danologia\ReinforcementLearningTicTacToe\Game\bin\Debug\netcoreapp2.1\Results\dataset_40000.csv";
+        private const string DATA_FILEPATH = @"D:\PWr\danologia\ReinforcementLearningTicTacToe\Game\bin\Debug\netcoreapp2.1\Results\dataset_400000.csv";
 
         static void Main(string[] args)
         {

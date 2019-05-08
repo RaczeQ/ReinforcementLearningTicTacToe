@@ -71,15 +71,15 @@ namespace Game
         static void Main(string[] args)
         {
             // Debug - Shows every player move
-            //// Info - Shows winner for each game with finished board state
+            // Info - Shows winner for each game with finished board state
             // Warn - just simulation result
-            NLogConfigurator.Configure(LogLevel.Info);
+            NLogConfigurator.Configure(LogLevel.Warn);
 
             // AnalyzeQLearningParameters();
 //            AnalyzeQLearningAlgorithm();
-//            var dataset = DatasetGenerator.GenerateDataset(10000, true);
+//            var dataset = DatasetGenerator.GenerateDataset(100000, true);
 //            DatasetGenerator.SaveDataset(dataset);
-            TicTacToe.RunGame(PlayerType.MLPlayer, PlayerType.Random, Board.DEFAULT_SIZE, 1000);
+            TicTacToe.RunGame(PlayerType.MLPlayer, PlayerType.Player, Board.DEFAULT_SIZE, 500);
             Console.ReadLine();
         }
     }

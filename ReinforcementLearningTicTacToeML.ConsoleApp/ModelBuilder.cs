@@ -16,7 +16,7 @@ namespace ReinforcementLearningTicTacToeML.ConsoleApp
 {
     public static class ModelBuilder
     {
-        private static string TRAIN_DATA_FILEPATH = @"D:\PWr\danologia\ReinforcementLearningTicTacToe\Game\bin\Debug\netcoreapp2.1\Results\dataset_40000.csv";
+        private static string TRAIN_DATA_FILEPATH = @"D:\PWr\danologia\ReinforcementLearningTicTacToe\Game\bin\Debug\netcoreapp2.1\Results\dataset_400000.csv";
         private static string MODEL_FILEPATH = @"../../../../ReinforcementLearningTicTacToeML.Model/MLModel.zip";
 
         // Create MLContext to be shared across the model creation workflow objects 
@@ -50,11 +50,10 @@ namespace ReinforcementLearningTicTacToeML.ConsoleApp
         {
             // Data process configuration with pipeline data transformations 
             var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("gameResult", "gameResult")
-                                      .Append(mlContext.Transforms.Concatenate("Features", new[] { "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8" }))
-                                      .AppendCacheCheckpoint(mlContext);
+                                      .Append(mlContext.Transforms.Concatenate("Features", new[] { "x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8" }));
 
             // Set the training algorithm 
-            var trainer = mlContext.MulticlassClassification.Trainers.OneVersusAll(mlContext.BinaryClassification.Trainers.FastTree(labelColumnName: "gameResult", featureColumnName: "Features"), labelColumnName: "gameResult")
+            var trainer = mlContext.MulticlassClassification.Trainers.LightGbm(labelColumnName: "gameResult", featureColumnName: "Features")
                                       .Append(mlContext.Transforms.Conversion.MapKeyToValue("PredictedLabel", "PredictedLabel"));
             var trainingPipeline = dataProcessPipeline.Append(trainer);
 

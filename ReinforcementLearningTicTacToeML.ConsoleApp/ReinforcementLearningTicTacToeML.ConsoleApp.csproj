@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ML" Version="1.0.0" />
-    <PackageReference Include="Microsoft.ML.FastTree" Version="1.0.0" />
+    <PackageReference Include="Microsoft.ML.LightGBM" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReinforcementLearningTicTacToeML.Model\ReinforcementLearningTicTacToeML.Model.csproj" />

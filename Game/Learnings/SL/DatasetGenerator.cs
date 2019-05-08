@@ -27,7 +27,8 @@ namespace Game.Learnings.SL
             var result = new List<BoardStateItem>();
             for (int i = 0; i < observationsNumber; i++)
             {
-                double baseProbability = PROBABILITY_CHANCE_STEP;
+                double probabilityStep = 0.04 + R.NextDouble() * 0.06;
+                double baseProbability = probabilityStep;
                 bool generated = false;
 
                 var startingPlayer = (Board.Player)R.Next(2);
@@ -60,7 +61,7 @@ namespace Game.Learnings.SL
                     }
                     else
                     {
-                        baseProbability += PROBABILITY_CHANCE_STEP;
+                        baseProbability += probabilityStep;
                     }
                 }
             }

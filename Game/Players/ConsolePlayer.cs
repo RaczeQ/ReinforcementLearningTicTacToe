@@ -21,7 +21,7 @@ namespace Game.Players
         private Tuple<int, int> ReadInput(IList<Tuple<int, int>> moves, string board, string player)
         {
             var alphabets = Enumerable.Range('a', 26).Select((num) => (char)num).ToList();
-            _logger.Info($"Current player: {player}");
+            _logger.Log(LogLevel.Error, $"Current player: {player}");
             int _a = 0;
             StringBuilder sb = new StringBuilder(board);
             
@@ -32,7 +32,7 @@ namespace Game.Players
                 _a++;
             }
             alphabets = alphabets.Take(_a).ToList();
-            _logger.Info(board);
+            _logger.Log(LogLevel.Error, board);
             Console.Write("Give move letter: ");
             var result = Console.ReadLine();
             while (!alphabets.Contains(result[0]))
