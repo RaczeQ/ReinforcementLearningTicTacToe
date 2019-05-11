@@ -19,7 +19,7 @@ namespace ReinforcementLearningTicTacToeML.ConsoleApp
         private const string MODEL_FILEPATH = @"MLModel.zip";
 
         //Dataset to use for predictions 
-        private const string DATA_FILEPATH = @"D:\PWr\danologia\ReinforcementLearningTicTacToe\Game\bin\Debug\netcoreapp2.1\Results\dataset_400000.csv";
+        private const string DATA_FILEPATH = @"D:\PWr\danologia\ReinforcementLearningTicTacToe\Game\bin\Debug\netcoreapp2.1\Results\dataset_40000.csv";
 
         static void Main(string[] args)
         {
@@ -37,7 +37,7 @@ namespace ReinforcementLearningTicTacToeML.ConsoleApp
             // Try a single prediction
             ModelOutput predictionResult = predEngine.Predict(sampleData);
 
-            Console.WriteLine($"Single Prediction --> Actual value: {sampleData.GameResult} | Predicted value: {predictionResult.Prediction} | Predicted scores: [{String.Join(",", predictionResult.Score)}]");
+            Console.WriteLine($"Single Prediction --> Actual value: {sampleData.GameScore} | Predicted value: {predictionResult.Score}");
 
             Console.WriteLine("=============== End of process, hit any key to finish ===============");
             Console.ReadKey();

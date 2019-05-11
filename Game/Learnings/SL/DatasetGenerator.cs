@@ -20,7 +20,12 @@ namespace Game.Learnings.SL
         private static readonly int EMPTY_VALUE = 0;
         private static readonly int ENEMY_VALUE = -1;
 
+        private static readonly int WIN_VALUE = 2;
+        private static readonly int TIE_VALUE = 1;
+        private static readonly int LOSS_VALUE = 0;
+
         private static readonly double PROBABILITY_CHANCE_STEP = 0.04;
+        private static readonly int GAME_PLAYOUTS_NUMBER = 1000;
 
         public static IList<BoardStateItem> GenerateDataset(int observationsNumber, bool transformObservation = false)
         {
@@ -71,26 +76,34 @@ namespace Game.Learnings.SL
         public static void SaveDataset(IList<BoardStateItem> dataset)
         {
             Writer.SaveSupervisedLearningDataset(dataset);
+            _logger.Warn("Saved dataset");
         } 
 
-        private static GameResult GetGameResult(Board b, Board.Player consideredPlayer)
+        private static double GetGameResult(Board board, Board.Player consideredPlayer)
         {
-            while (b.GetGameState().Item1 == Board.GameState.InProgress)
+            double score = 0;
+            for (int i = 0; i < GAME_PLAYOUTS_NUMBER; i++)
             {
-                var moves = b.GetAvailableMoves();
-                var nextMove = moves.ElementAt(R.Next(moves.Count));
-                b.MakeMove(nextMove);
+                var b = board.GetBoardCopy();
+                while (b.GetGameState().Item1 == Board.GameState.InProgress)
+                {
+                    var moves = b.GetAvailableMoves();
+                    var nextMove = moves.ElementAt(R.Next(moves.Count));
+                    b.MakeMove(nextMove);
+                }
+                var (gameState, winner) = b.GetGameState();
+                if (gameState == Board.GameState.Tie)
+                {
+                    score += TIE_VALUE;
+                }
+                else
+                {
+                    score += winner == consideredPlayer ? WIN_VALUE : LOSS_VALUE;
+                }
             }
 
-            var (gameState, winner) = b.GetGameState();
-            if (gameState == Board.GameState.Tie)
-            {
-                return GameResult.Tie;
-            }
-            else
-            {
-                return winner == consideredPlayer ? GameResult.Win : GameResult.Loss;
-            }
+            return score;
+//            return score / GAME_PLAYOUTS_NUMBER;
         }
 
         public static int[] GetParsedCells(IList<Cell> cellsList, Board.Player consideredPlayer)
@@ -111,10 +124,10 @@ namespace Game.Learnings.SL
             }
             return result;
         }
-        private static BoardStateItem GetObservationFromBoardState(Board b, GameResult gameResult, Board.Player consideredPlayer)
+        private static BoardStateItem GetObservationFromBoardState(Board b, double gameResult, Board.Player consideredPlayer)
         {
             var result = new BoardStateItem();
-            result.GameResult = gameResult;
+            result.GameScore = gameResult;
             var cellsList = b.Cells.Cast<Cell>().ToList();
             result.BoardFields = GetParsedCells(cellsList, consideredPlayer);
             return result;

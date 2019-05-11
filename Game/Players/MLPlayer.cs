@@ -29,11 +29,7 @@ namespace Game.Players
             var input = new ModelInput();
             var currentPlayer = board.GetCurrentPlayer();
             var availableMoves = board.GetAvailableMoves();
-            float bestWinProb = -float.MinValue;
-            Tuple<int, int> bestWinMove = null;
-            string bestWinState = null;
-            float[] bestScore = null;
-            string bestState = null;
+            float bestScore = -1;
             Tuple<int, int> bestMove = null;
             foreach (var move in availableMoves)
             {
@@ -53,31 +49,19 @@ namespace Game.Players
 
                 // Try model on sample data
                 ModelOutput result = predEngine.Predict(input);
-                var prediction = result.Prediction.ToUpper();
 
-                if (bestWinMove == null || result.Score[2] > bestWinProb)
-                {
-                    bestWinProb = result.Score[2];
-                    bestWinMove = move;
-                    bestWinState = prediction;
-                }
-                
-                if (bestMove == null || (bestState != "WIN" && prediction == "TIE") || prediction == "WIN")
+                if (bestMove == null || bestScore < result.Score)
                 {
                     bestMove = move;
-                    bestState = prediction;
                     bestScore = result.Score;
                 }
             }
-//
-//            _logger.Debug(bestState);
-//            _logger.Debug(string.Join(", ", bestScore));
 
-            _logger.Debug(bestWinState);
-            _logger.Debug(bestWinProb);
+            _logger.Debug(bestMove);
+            _logger.Debug(bestScore);
 
 
-            return bestWinMove;
+            return bestMove;
         }
     }
 }

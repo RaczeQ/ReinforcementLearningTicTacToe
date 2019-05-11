@@ -77,9 +77,10 @@ namespace Game
 
             // AnalyzeQLearningParameters();
 //            AnalyzeQLearningAlgorithm();
-//            var dataset = DatasetGenerator.GenerateDataset(100000, true);
+//            var dataset = DatasetGenerator.GenerateDataset(10000, true);
 //            DatasetGenerator.SaveDataset(dataset);
-            TicTacToe.RunGame(PlayerType.MLPlayer, PlayerType.Player, Board.DEFAULT_SIZE, 500);
+            TicTacToe.RunGame(PlayerType.Random, PlayerType.Random, Board.DEFAULT_SIZE, 1000);
+            TicTacToe.RunGame(PlayerType.Random, PlayerType.Random, Board.DEFAULT_SIZE, 1000);
             Console.ReadLine();
         }
     }

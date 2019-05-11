@@ -32,12 +32,11 @@
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.8.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReinforcementLearningTicTacToeML.Model\ReinforcementLearningTicTacToeML.Model.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.Configuration" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ReinforcementLearningTicTacToeML.ConsoleApp\ReinforcementLearningTicTacToeML.ConsoleApp.csproj" />
-    <ProjectReference Include="..\ReinforcementLearningTicTacToeML.Model\ReinforcementLearningTicTacToeML.Model.csproj" />
   </ItemGroup>
 </Project>

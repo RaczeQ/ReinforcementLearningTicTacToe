@@ -43,6 +43,11 @@ namespace Game
                     _logger.Info($"Won player {state.Item2}");
                     wins[state.Item2.Value]++;
                 }
+
+                if (i % (int)(battleNum / 10) == 0)
+                {
+                    _logger.Warn($"{i}/{battleNum}");
+                }
             }
             _logger.Warn($"X: {wins[Board.Player.X]}, O: {wins[Board.Player.O]}, Ties: {ties}");
 

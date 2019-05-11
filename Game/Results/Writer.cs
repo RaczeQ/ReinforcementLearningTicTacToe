@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -110,14 +111,17 @@ namespace Game.Results
             var file = String.Format(path + "/{0}.csv", fileName);
 
             var header =
-                $"{string.Join(",", Enumerable.Range(0, result[0].BoardFields.Length).Select(n => $"x{n}"))},gameResult";
+                $"{string.Join(",", Enumerable.Range(0, result[0].BoardFields.Length).Select(n => $"x{n}"))},gameScore";
+
+            NumberFormatInfo nfi = new NumberFormatInfo();
+            nfi.NumberDecimalSeparator = ".";
 
             using (StreamWriter fw = new StreamWriter(file))
             {
                 fw.WriteLine(header);
                 foreach (var item in result)
                 {
-                    fw.WriteLine("{0},{1}", string.Join(",", item.BoardFields), item.GameResult.ToString());
+                    fw.WriteLine("{0},{1}", string.Join(",", item.BoardFields), item.GameScore.ToString(nfi));
                 }
                 fw.Close();
             }

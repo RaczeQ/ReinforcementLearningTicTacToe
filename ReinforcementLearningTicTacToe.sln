@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28714.193
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{A5C979FD-9D7E-4F33-A7D0-06E208992F9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "Game\Game.csproj", "{A5C979FD-9D7E-4F33-A7D0-06E208992F9B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReinforcementLearningTicTacToeML.Model", "ReinforcementLearningTicTacToeML.Model\ReinforcementLearningTicTacToeML.Model.csproj", "{09F69029-8008-45DA-A7BF-C7E9A2E51BF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReinforcementLearningTicTacToeML.Model", "ReinforcementLearningTicTacToeML.Model\ReinforcementLearningTicTacToeML.Model.csproj", "{BC2861CE-7952-47FA-A6BC-9DB23EB26791}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReinforcementLearningTicTacToeML.ConsoleApp", "ReinforcementLearningTicTacToeML.ConsoleApp\ReinforcementLearningTicTacToeML.ConsoleApp.csproj", "{7B98603D-C021-4D0B-9CEC-6AD1A2C5388D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReinforcementLearningTicTacToeML.ConsoleApp", "ReinforcementLearningTicTacToeML.ConsoleApp\ReinforcementLearningTicTacToeML.ConsoleApp.csproj", "{0F8CE3AE-FE32-4FA5-9E76-FBA303332A53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{A5C979FD-9D7E-4F33-A7D0-06E208992F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5C979FD-9D7E-4F33-A7D0-06E208992F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5C979FD-9D7E-4F33-A7D0-06E208992F9B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{09F69029-8008-45DA-A7BF-C7E9A2E51BF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09F69029-8008-45DA-A7BF-C7E9A2E51BF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{09F69029-8008-45DA-A7BF-C7E9A2E51BF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09F69029-8008-45DA-A7BF-C7E9A2E51BF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B98603D-C021-4D0B-9CEC-6AD1A2C5388D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B98603D-C021-4D0B-9CEC-6AD1A2C5388D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B98603D-C021-4D0B-9CEC-6AD1A2C5388D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B98603D-C021-4D0B-9CEC-6AD1A2C5388D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC2861CE-7952-47FA-A6BC-9DB23EB26791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC2861CE-7952-47FA-A6BC-9DB23EB26791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC2861CE-7952-47FA-A6BC-9DB23EB26791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC2861CE-7952-47FA-A6BC-9DB23EB26791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F8CE3AE-FE32-4FA5-9E76-FBA303332A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8CE3AE-FE32-4FA5-9E76-FBA303332A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F8CE3AE-FE32-4FA5-9E76-FBA303332A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8CE3AE-FE32-4FA5-9E76-FBA303332A53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

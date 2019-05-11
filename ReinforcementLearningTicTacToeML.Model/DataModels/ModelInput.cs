@@ -46,8 +46,8 @@ namespace ReinforcementLearningTicTacToeML.Model.DataModels
         public float X8 { get; set; }
 
 
-        [ColumnName("gameResult"), LoadColumn(9)]
-        public string GameResult { get; set; }
+        [ColumnName("gameScore"), LoadColumn(9)]
+        public float GameScore { get; set; }
 
 
     }
